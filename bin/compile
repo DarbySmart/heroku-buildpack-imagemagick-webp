@@ -9,7 +9,7 @@ IMAGE_MAGICK_VERSION="6.9.2-10"
 
 VENDOR_DIR="$BUILD_DIR/vendor"
 INSTALL_DIR="$VENDOR_DIR/imagemagick-webp"
-CACHE_FILE="$CACHE_DIR/imagemagick-webp-IMv${IMAGE_MAGICK_VERSION}_xz_jp2-WEBPv$LIBWEBP_VERSION-JPEGTv$JPEGTURBO_VERSION.tar.gz"
+CACHE_FILE="$CACHE_DIR/imagemagick-webp-IMv${IMAGE_MAGICK_VERSION}_xz_openjp2-WEBPv$LIBWEBP_VERSION-JPEGTv$JPEGTURBO_VERSION.tar.gz"
 
 mkdir -p $CACHE_DIR
 mkdir -p $VENDOR_DIR
@@ -78,8 +78,8 @@ if [ ! -f $CACHE_FILE ]; then
 
   echo "-----> Building ImageMagick"
   cd $IMAGE_MAGICK_DIR
-  export CPPFLAGS="-I$INSTALL_DIR/include"
-  export LDFLAGS="-L$INSTALL_DIR/lib"
+  export CPPFLAGS="-I$INSTALL_DIR/include -I$VENDOR_DIR/openjpeg/include"
+  export LDFLAGS="-L$INSTALL_DIR/lib -L$VENDOR_DIR/openjpeg/lib"
   ./configure --prefix=$INSTALL_DIR --with-webp --with-openjp2=yes --with-quantum-depth=8 --disable-static
   make && make install
   cd ..
